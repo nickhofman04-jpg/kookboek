@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const CATS = ["Ontbijt","Lunch","Diner","Dessert","Snack","Hapjes","Overig"];
 const DIFFS = ["Gemakkelijk","Gemiddeld","Moeilijk"];
 const EMPTY_FORM = {title:"",description:"",category:"Diner",prepTime:"",cookTime:"",servings:"4",difficulty:"Gemiddeld",ingredients:[""],steps:[""]};
-const STORAGE_KEY = "mijn-receptenboek-2025-final";
+const STORAGE_KEY = "mijn-receptenboek-2025-v2";
 
 function makeId(){return "r"+Date.now().toString(36)+Math.random().toString(36).slice(2);}
 
@@ -72,9 +72,22 @@ const ALL = [
   {id:"a44",title:"Vitello tonnato",category:"Hapjes",description:"Italiaans zomers voorgerecht. Dun gesneden kalfsvlees met tonijn-kappertjessaus.",prepTime:"20 min",cookTime:"1 uur",servings:"6",difficulty:"Gemiddeld",ingredients:["600g kalfsfricandeau","1 blik tonijn op water","4 el mayonaise","2 el kappertjes","2 ansjovisfilets","Sap van 1 citroen","2 el olijfolie","Laurier en tijm","Zwarte peper","Extra kappertjes voor garnering","Citroen en peterselie voor garnering"],steps:["Pocheer kalfsvlees zacht in water met laurier, tijm en peper (45-60 min, nooit koken).","Laat afkoelen in het kookvocht. Snij in flinterdunne plakjes.","Blend alle tonijnsaus-ingredienten glad. Breng op smaak.","Leg de kalfsvleesplakjes dakpansgewijs op een schaal.","Smeer de tonijnsaus royaal erover.","Garneer met kappertjes, citroen en peterselie. Laat 1 uur rusten voor serveren."]},
   {id:"a45",title:"Nasi goreng",category:"Diner",description:"Indonesisch gebakken rijst. Kleurrijk, smakelijk en bijna elk kind is er dol op.",prepTime:"15 min",cookTime:"15 min",servings:"4",difficulty:"Gemakkelijk",ingredients:["400g gekookte rijst liefst van de dag voordien","200g kipfilet in kleine blokjes","100g gekookte ham","2 eieren","1 ui fijngesnipperd","3 teentjes knoflook","2 el ketjap manis","1 el sojasaus","Olie","Komkommer","Lente-ui","Kroepoek"],steps:["Bak de kip gaar in olie. Haal eruit.","Bak ui en knoflook zacht in de pan.","Voeg de rijst toe en bak op hoog vuur, goed roerend.","Maak ruimte in de pan. Kluts eieren en roer rul.","Voeg kip en ham toe. Meng alles door elkaar.","Kruid met ketjap manis en sojasaus. Serveer met komkommer, lente-ui en kroepoek."]},
   {id:"a46",title:"Zelfgemaakte pizza voor kinderen",category:"Diner",description:"Kinderen kneden zelf het deeg en kiezen hun toppings.",prepTime:"30 min",cookTime:"15 min",servings:"4",difficulty:"Gemakkelijk",ingredients:["500g bloem","7g droge gist","300ml lauw water","2 el olijfolie","1 tl zout","1 tl suiker","1 blik gepelde tomaten (400g)","1 tl oregano","Knoflookpoeder","Geraspte kaas","Gekookte ham","Paprika","Olijven","Champignons","Mais"],steps:["Los gist op in lauw water met suiker. 10 min laten staan.","Meng bloem en zout. Voeg gistwater en olijfolie toe. Kneed 8 min.","Laat 1 uur rijzen op een warme plek.","Maak de snelle saus: mix tomaten met oregano, knoflookpoeder en zout.","Laat kinderen zelf hun deeg uitrollen en beleggen.","Oven op 230 graden. Bak 12-15 min tot goudbruin."]},
-  {id:"a47",title:"Zelfgemaakte meringue",category:"Dessert",description:"Luchtig, knapperig van buiten en zacht van binnen. De basis voor Eton Mess, pavlova en veel meer. Eens je de techniek kent, lukt het altijd.",prepTime:"20 min",cookTime:"1,5 uur",servings:"8",difficulty:"Gemiddeld",ingredients:["3 eiwitten (op kamertemperatuur)","150g fijne kristalsuiker of basterdsuiker","1 tl witte wijnazijn of citroensap","1 tl maizena (optioneel, voor een zachtere binnenkant)","Snufje zout"],steps:["Verwarm de oven voor op 100 graden. Bekleed een bakplaat met bakpapier.","Zorg dat de kom en garde VETVRIJ zijn. Veeg eventueel af met citroensap. Zelfs een druppel vet maakt de eiwitten kapot.","Klop de eiwitten met het snufje zout op middelhoge snelheid tot zachte pieken. De eiwitten moeten wit en schuimig zijn.","Voeg de suiker toe, 1 eetlepel per keer, terwijl je blijft kloppen op hoge snelheid. Wacht telkens tot de suiker volledig opgenomen is voor je de volgende lepel toevoegt. Dit duurt 8-10 minuten.","Het mengsel is klaar als het glanzend en stijf is, en je er geen suikerkorrels meer tussen voelt wanneer je wat tussen je vingers wrijft.","Vouw de azijn en maizena er voorzichtig door met een spatel.","Schep of spuit hoopjes op het bakpapier voor meringue-nestjes, of smeer uit tot een grote cirkel voor pavlova.","Bak 1 uur 15 min op 100 graden. Zet de oven uit en laat de meringues VOLLEDIG afkoelen in de oven met de deur dicht (minstens 1 uur, liefst een nacht). Nooit de oven openen tijdens het bakken!","Bewaar in een luchtdichte doos, niet in de koelkast. Meringues zijn tot 1 week houdbaar."]},
-  {id:"a48",title:"Eton Mess",category:"Dessert",description:"Een klassiek Engels dessert van knapperige meringue, vers geslagen room en rijpe aardbeien. Snel gemaakt, altijd indrukwekkend.",prepTime:"15 min",cookTime:"0 min",servings:"4",difficulty:"Gemakkelijk",ingredients:["500g verse aardbeien","400ml slagroom (minstens 35% vet)","2 el poedersuiker","1 tl vanille-extract","6 meringue-nestjes (zelfgemaakt of kant-en-klaar)","1 el suiker (voor de aardbeien)","Verse munt optioneel"],steps:["Snij de aardbeien in kwarten. Doe de helft in een kom, voeg 1 el suiker toe en plet licht met een vork zodat er sap vrijkomt. Laat 10 minuten trekken. De andere helft bewaar je als garnering.","Klop de slagroom op met de poedersuiker en het vanille-extract tot zachte pieken. Niet te stijf: je wil een luchtige, romige textuur die nog net van de lepel glijdt.","Breek de meringue-nestjes in grove stukken. Bewaar een paar mooie grote stukken apart voor de garnering bovenop.","Schep de geplete aardbeien met hun sap door de slagroom. Vouw daarna de gebroken meringue er voorzichtig door. Niet te veel mengen: een marmeren effect van wit, rood en creme is precies wat je wil.","Schep in hoge glazen of op een mooie schaal. Garneer met de bewaarde aardbeienpartjes, de grote meringuestukken en eventueel verse munt.","Direct serveren voor de knapperigste meringue. Als je hem vooraf maakt, bewaar dan de slagroom, aardbeien en meringue apart en meng op het laatste moment."]},
+  {id:"a47",title:"Zelfgemaakte meringue",category:"Dessert",description:"Luchtig, knapperig van buiten en zacht van binnen. De basis voor Eton Mess, pavlova en veel meer. Eens je de techniek kent, lukt het altijd.",prepTime:"20 min",cookTime:"1,5 uur",servings:"8",difficulty:"Gemiddeld",ingredients:["3 eiwitten op kamertemperatuur","150g fijne kristalsuiker of basterdsuiker","1 tl witte wijnazijn of citroensap","1 tl maizena optioneel voor een zachtere binnenkant","Snufje zout"],steps:["Verwarm de oven voor op 100 graden. Bekleed een bakplaat met bakpapier.","Zorg dat de kom en garde VETVRIJ zijn. Veeg eventueel af met citroensap. Zelfs een druppel vet maakt de eiwitten kapot.","Klop de eiwitten met het snufje zout op middelhoge snelheid tot zachte pieken.","Voeg de suiker toe, 1 eetlepel per keer, terwijl je blijft kloppen op hoge snelheid. Wacht telkens tot de suiker volledig opgenomen is. Dit duurt 8-10 minuten.","Het mengsel is klaar als het glanzend en stijf is, en je er geen suikerkorrels meer tussen voelt wanneer je wat tussen je vingers wrijft.","Vouw de azijn en maizena er voorzichtig door met een spatel.","Schep of spuit hoopjes op het bakpapier voor meringue-nestjes, of smeer uit tot een grote cirkel voor pavlova.","Bak 1 uur 15 min op 100 graden. Zet de oven UIT en laat de meringues volledig afkoelen in de oven met de deur dicht, minstens 1 uur liefst een nacht. Nooit de oven openen tijdens het bakken!","Bewaar in een luchtdichte doos, niet in de koelkast. Tot 1 week houdbaar."]},
+  {id:"a48",title:"Eton Mess",category:"Dessert",description:"Een klassiek Engels dessert van knapperige meringue, vers geslagen room en rijpe aardbeien. Snel gemaakt, altijd indrukwekkend.",prepTime:"15 min",cookTime:"0 min",servings:"4",difficulty:"Gemakkelijk",ingredients:["500g verse aardbeien","400ml slagroom (minstens 35% vet)","2 el poedersuiker","1 tl vanille-extract","6 meringue-nestjes (zelfgemaakt of kant-en-klaar)","1 el suiker voor de aardbeien","Verse munt optioneel"],steps:["Snij de aardbeien in kwarten. Doe de helft in een kom, voeg 1 el suiker toe en plet licht met een vork zodat er sap vrijkomt. Laat 10 minuten trekken. De andere helft bewaar je als garnering.","Klop de slagroom op met de poedersuiker en het vanille-extract tot zachte pieken. Niet te stijf: je wil een luchtige, romige textuur die nog net van de lepel glijdt.","Breek de meringue-nestjes in grove stukken. Bewaar een paar mooie grote stukken apart voor de garnering bovenop.","Schep de geplete aardbeien met hun sap door de slagroom. Vouw daarna de gebroken meringue er voorzichtig door. Niet te veel mengen: een marmeren effect van wit, rood en creme is precies wat je wil.","Schep in hoge glazen of op een mooie schaal. Garneer met de bewaarde aardbeienpartjes, de grote meringuestukken en eventueel verse munt.","Direct serveren voor de knapperigste meringue. Als je hem vooraf maakt, bewaar dan de slagroom, aardbeien en meringue apart en meng op het laatste moment."]},
+  {id:"b01",title:"Gyoza (Japanse dumplings)",category:"Hapjes",description:"Knapperig van buiten, sappig van binnen. Met een pittige dipsaus.",prepTime:"40 min",cookTime:"10 min",servings:"4",difficulty:"Gemiddeld",ingredients:["300g varkensgehakt","200g Chinese kool fijngehakt","3 teentjes knoflook geraspt","2 cm verse gember geraspt","2 el sojasaus","1 el sesamolie","1 tl suiker","30 gyoza-vellen","2 el olie","100ml water","Sojasaus voor dipsaus","Rijstazijn voor dipsaus","Chili-olie voor dipsaus"],steps:["Bestrooi kool met zout, laat 10 min staan en knijp het vocht eruit.","Meng gehakt, kool, knoflook, gember, sojasaus, sesamolie en suiker.","Leg 1 tl vulling op elk velletje. Bevochtig de rand en vouw dicht met kleine plooitjes.","Verhit olie in een pan. Bak dumplings op de platte kant 2-3 min tot goudbruin.","Voeg water toe en dek af. Stoom 5 min tot het water verdampt is.","Serveer met dipsaus van sojasaus, azijn en chili-olie."]},
+  {id:"b02",title:"Edamame met zeezout en chili",category:"Hapjes",description:"Simpelste Japanse snack. Vijf minuten werk, altijd een hit.",prepTime:"2 min",cookTime:"5 min",servings:"4",difficulty:"Gemakkelijk",ingredients:["500g diepgevroren edamame in de schil","1 el grof zeezout","1 tl chilivlokken","1 tl sesamolie","Sap van een halve limoen"],steps:["Kook edamame 4-5 min in gezouten water.","Giet af en schud droog.","Meng sesamolie, chilivlokken en limoensap.","Giet over de edamame en gooi goed door.","Bestrooi met grof zeezout. Serveer warm of op kamertemperatuur."]},
+  {id:"b03",title:"Bao buns met pulled pork",category:"Hapjes",description:"Zachte gestoomde broodjes gevuld met sappig gestoofde buikspek.",prepTime:"30 min",cookTime:"2 uur",servings:"6",difficulty:"Gemiddeld",ingredients:["500g varkensbuikspek","12 kant-en-klare bao buns","4 el hoisinsaus","2 el sojasaus","2 el rijstwijnazijn","2 el bruine suiker","3 teentjes knoflook","2 cm gember","Komkommer in dunne plakjes","Gesneden lente-ui","Koriander","Geroosterde sesamzaadjes"],steps:["Meng hoisin, soja, azijn, suiker, knoflook en gember. Marineer het spek minstens 1 uur.","Bak spek aan in een pan. Voeg marinade toe met 100ml water.","Sudder 1,5-2 uur op laag vuur tot het vlees uit elkaar valt.","Trek het vlees in stukken met twee vorken. Laat de saus inkoken tot glaze.","Stoom de bao buns 8-10 min.","Vul elk broodje met pulled pork, komkommer, lente-ui en koriander."]},
+  {id:"b04",title:"Tempura groenten en garnalen",category:"Hapjes",description:"Luchtig Japans beslag. Knapperiger dan krokant.",prepTime:"20 min",cookTime:"15 min",servings:"4",difficulty:"Gemiddeld",ingredients:["300g rauwe garnalen gepeld","1 courgette in plakjes","1 rode paprika in reepjes","200g broccoli in kleine roosjes","150g ijskoude bloem","200ml ijskoud bruiswater","1 ei","Zout","Olie om te frituren","Sojasaus","Dashi of bouillon voor dipsaus","Mirin voor dipsaus","Geraspte daikon optioneel"],steps:["Meng bloem, ei en ijskoud bruiswater. Niet te veel roeren — klonters zijn OK en gewenst!","Verhit olie op 180 graden.","Dep groenten en garnalen droog. Haal door het beslag.","Frituur in porties 2-3 min tot net goudbruin.","Haal eruit op keukenpapier.","Maak dipsaus: verwarm soja, dashi en mirin. Serveer tempura direct — anders wordt het slap."]},
+  {id:"b05",title:"Korean fried chicken wings",category:"Hapjes",description:"Dubbel gefrituurd voor extra knapperigheid. Met gochujang glazuur.",prepTime:"20 min",cookTime:"20 min",servings:"4",difficulty:"Gemiddeld",ingredients:["1 kg kippenvleugels","100g maizena","50g bloem","1 tl zout","1 tl knoflookpoeder","Olie om te frituren","3 el gochujang","2 el honing","2 el sojasaus","1 el rijstwijnazijn","2 teentjes knoflook geraspt","1 el sesamolie","Sesamzaadjes","Lente-ui"],steps:["Dep de vleugels goed droog.","Meng maizena, bloem, zout en knoflookpoeder. Haal de vleugels erdoor.","Frituur op 160 graden gedurende 8 min. Haal eruit en laat 5 min rusten.","Frituur opnieuw op 190 graden gedurende 4-5 min. Nu zijn ze extra knapperig!","Maak de saus: meng gochujang, honing, soja, azijn, knoflook en sesamolie.","Gooi de warme vleugels door de saus. Garneer met sesam en lente-ui."]},
+  {id:"b06",title:"Miso soep met tofu en wakame",category:"Hapjes",description:"De Japanse troostesoep. In 10 minuten klaar.",prepTime:"5 min",cookTime:"10 min",servings:"4",difficulty:"Gemakkelijk",ingredients:["1 L dashi bouillon of groentebouillon","4 el witte misopasta","200g zachte tofu in blokjes","2 el gedroogde wakame zeewier","3 lente-uitjes fijngesneden","1 el sojasaus"],steps:["Week de wakame 5 min in koud water. Giet af.","Breng de bouillon aan de kook.","Verlaag het vuur. Los de misopasta op in een beetje warme bouillon en voeg toe.","Voeg tofu en wakame toe. Niet meer laten koken.","Voeg sojasaus toe. Serveer direct in kommen met lente-ui."]},
+  {id:"b07",title:"Gyudon — Japanse biefstuk rijstkom",category:"Hapjes",description:"Snelle Japanse rijstkom met dun gesneden rundvlees en gekarameliseerde ui.",prepTime:"10 min",cookTime:"15 min",servings:"2",difficulty:"Gemakkelijk",ingredients:["300g rundvlees zeer dun gesneden (rosbief of entrecote)","2 uien in halve ringen","200ml dashi of runderbouillon","4 el sojasaus","2 el mirin","1 el sake","1 el suiker","2 porties gestoomde rijst","2 eieren","Ingelegde rode gember","Lente-ui"],steps:["Fruit de ui 5 min in olie tot licht goudbruin.","Voeg dashi, sojasaus, mirin, sake en suiker toe. Breng aan de kook.","Voeg het vlees toe. Kook 3-4 min op middelhoog vuur.","Kluts de eieren en giet over het vlees. Dek af, laat 1 min opstijven.","Serveer over rijst. Garneer met gember en lente-ui."]},
+  {id:"b08",title:"Agedashi tofu",category:"Hapjes",description:"Knapperig gefrituurde tofu in een warme dashi saus. Klassiek Japans bistrogerecht.",prepTime:"15 min",cookTime:"10 min",servings:"2",difficulty:"Gemiddeld",ingredients:["400g zachte tofu","Maizena om te bestuiven","Olie om te frituren","300ml dashi","3 el sojasaus","3 el mirin","Geraspte daikon","Geraspte gember","Lente-ui","Katsuobushi (bonito vlokken)"],steps:["Wikkel de tofu in keukenpapier en laat 30 min uitlekken.","Snij in blokken. Bestuif royaal met maizena.","Frituur op 180 graden goudbruin (3-4 min). Houd warm.","Maak de saus: breng dashi, sojasaus en mirin aan de kook.","Leg de tofu in een kom. Giet de hete saus eromheen.","Garneer met daikon, gember, lente-ui en katsuobushi."]},
+  {id:"b09",title:"Takoyaki (octopus balletjes)",category:"Hapjes",description:"Streetfood uit Osaka. Knapperig van buiten, gesmolten van binnen.",prepTime:"20 min",cookTime:"15 min",servings:"4",difficulty:"Moeilijk",ingredients:["200g bloem","2 eieren","600ml dashi of kippenbouillon","200g gekookte octopus in kleine stukjes","Lente-ui fijngesneden","Ingelegde gember fijngesneden","Tempura restjes optioneel","Olie","Takoyaki saus of okonomiyakisaus","Japanse mayonaise","Katsuobushi (bonito vlokken)","Aonori (gedroogde zeewier)"],steps:["Meng bloem, eieren en dashi tot een vloeibaar beslag.","Verhit een takoyaki-pan goed in. Vet elk gaatje in met olie.","Giet het beslag in elk gaatje. Voeg octopus, ui en gember toe.","Draai de balletjes om met een satéprikker als de randen stollen.","Blijf draaien tot ze rondom goudbruin en knapperig zijn.","Serveer met saus, mayonaise, katsuobushi en aonori."]},
+  {id:"b10",title:"Kimchi pancakes (Kimchijeon)",category:"Hapjes",description:"Pittige, knapperige Koreaanse pannenkoekjes met kimchi.",prepTime:"10 min",cookTime:"15 min",servings:"4",difficulty:"Gemakkelijk",ingredients:["200g kimchi grof gesneden","150g bloem","1 ei","150ml kimchi-sap of water","3 lente-uitjes","1 tl sesamolie","Olie om in te bakken","Sojasaus voor dipsaus","Rijstazijn voor dipsaus","Sesamzaadjes voor dipsaus"],steps:["Meng bloem, ei, kimchi-sap en sesamolie tot een beslag.","Roer kimchi en lente-ui erdoor.","Verhit royaal olie in een pan. Giet beslag erin en druk plat.","Bak 3-4 min per kant op middelhoog vuur tot krokant en goudbruin.","Maak dipsaus: meng sojasaus, azijn en sesamzaadjes.","Snij in stukken en serveer direct met dipsaus."]},
+  {id:"b11",title:"Pad See Ew",category:"Diner",description:"Thaise roergebakken rijstnoedels met broccoli en ei. Smoky en smakelijk.",prepTime:"15 min",cookTime:"10 min",servings:"2",difficulty:"Gemakkelijk",ingredients:["200g brede rijstnoedels vers of geweekt","200g kipfilet in reepjes","200g Chinese broccoli of gewone broccoli","2 eieren","4 el sojasaus","2 el oestersaus","1 el vissaus","1 tl suiker","3 teentjes knoflook","2 el olie"],steps:["Meng de sauzen en suiker.","Verhit wok gloeiend heet. Bak knoflook 30 sec.","Voeg kip toe en bak gaar. Voeg broccoli toe, bak 2 min.","Voeg de noedels toe. Druk ze plat tegen de hete wok voor kleur (smoky effect).","Maak ruimte. Kluts de eieren en laat half opstijven, dan mengen.","Voeg de saus toe en roer alles goed door. Serveer direct."]},
+  {id:"b12",title:"Tom Kha Gai (kokossoep)",category:"Diner",description:"Thaise kokosmelksoep met citroengras en kip. Zacht, aromatisch en troostend.",prepTime:"15 min",cookTime:"20 min",servings:"4",difficulty:"Gemakkelijk",ingredients:["400ml kokosmelk","400ml kippenbouillon","300g kippendijfilet in reepjes","200g champignons in schijfjes","2 stengels citroengras gekneusd","4 blaadjes citroenblad (kaffir lime)","3 cm galanga of gember in plakjes","3 el vissaus","2 el limoensap","1 tl palmsuiker of bruine suiker","2 rode chilipepers","Verse koriander"],steps:["Breng bouillon aan de kook met citroengras, citroenblad en galanga.","Voeg kokosmelk toe. Laat 5 min sudderen.","Voeg kip toe en gaar 8 min op middelhoog vuur.","Voeg champignons toe, kook nog 3 min.","Breng op smaak met vissaus, limoensap en suiker.","Garneer met koriander en chilipepers. Verwijder de aromatische takken voor het serveren."]},
 ];
+
 
 const LIGHT = {bg:"#FAF7F2",surf:"#FFFFFF",surfAlt:"#F5F0E8",brd:"#E5D9C8",brdSoft:"#EDE5D8",tx:"#2C2012",txM:"#6B5A42",txF:"#A8926E",acc:"#C25C2A",accHov:"#A34920",accTx:"#FFFFFF",hBg:"#FFFFFF",hBrd:"#E5D9C8",inBg:"#FFFFFF",inBrd:"#D4C4A8",dng:"#DC2626",dngBg:"#FEF2F2",dngBrd:"#FECACA",sbBg:"#F5F0E8"};
 const DARK =  {bg:"#1A1512",surf:"#252018",surfAlt:"#2E2820",brd:"#3D3428",brdSoft:"#342D22",tx:"#F0EBE2",txM:"#A89880",txF:"#6B5840",acc:"#E07840",accHov:"#C96428",accTx:"#1A1512",hBg:"#1A1512",hBrd:"#2E2820",inBg:"#252018",inBrd:"#3D3428",dng:"#F87171",dngBg:"#3B1111",dngBrd:"#7F1D1D",sbBg:"#141210"};
@@ -134,15 +147,22 @@ function fileToBase64(file) {
   });
 }
 
+function lsGet(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; }
+}
+function lsSet(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch(e) {}
+}
+
 export default function App() {
-  const [recipes,      setRecipes]      = useState([]);
+  const [recipes,      setRecipes]      = useState(function(){ const v = lsGet(STORAGE_KEY, null); return (Array.isArray(v) && v.length > 0) ? v : ALL; });
   const [view,         setView]         = useState("grid");
   const [selected,     setSelected]     = useState(null);
   const [formData,     setFormData]     = useState(EMPTY_FORM);
   const [editingId,    setEditingId]    = useState(null);
   const [searchTerm,   setSearchTerm]   = useState("");
   const [activeCat,    setActiveCat]    = useState("Alles");
-  const [isDark,       setIsDark]       = useState(false);
+  const [isDark,       setIsDark]       = useState(function(){ return lsGet(STORAGE_KEY+"-theme", false); });
   const [importTab,    setImportTab]    = useState("url");
   const [importSt,     setImportSt]     = useState(null);
   const [importMsg,    setImportMsg]    = useState("");
@@ -150,63 +170,28 @@ export default function App() {
   const [textInput,    setTextInput]    = useState("");
   const [photoPreview, setPhotoPreview] = useState(null);
   const [delConfirm,   setDelConfirm]   = useState(null);
-  const [shopItems,    setShopItems]    = useState({});
-  const [shopChecked,  setShopChecked]  = useState({});
+  const [shopItems,    setShopItems]    = useState(function(){ return lsGet(STORAGE_KEY+"-shop", {}); });
+  const [shopChecked,  setShopChecked]  = useState(function(){ return lsGet(STORAGE_KEY+"-check", {}); });
   const [showShop,     setShowShop]     = useState(false);
-  const [isReady,      setIsReady]      = useState(false);
 
   const T = isDark ? DARK : LIGHT;
 
-  useEffect(function() {
-    async function loadData() {
-      try {
-        const stored = await window.storage.get(STORAGE_KEY);
-        if (stored && stored.value) {
-          const parsed = JSON.parse(stored.value);
-          // IMPORTANT: only use stored if it has data, otherwise use defaults
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setRecipes(parsed);
-          } else {
-            setRecipes(ALL);
-          }
-        } else {
-          setRecipes(ALL);
-          await window.storage.set(STORAGE_KEY, JSON.stringify(ALL));
-        }
-      } catch(err) { setRecipes(ALL); }
-      try {
-        const themeStored = await window.storage.get(STORAGE_KEY+"-theme");
-        if (themeStored && themeStored.value === "dark") setIsDark(true);
-      } catch(err) {}
-      try {
-        const shopStored = await window.storage.get(STORAGE_KEY+"-shop");
-        if (shopStored && shopStored.value) setShopItems(JSON.parse(shopStored.value));
-      } catch(err) {}
-      try {
-        const checkStored = await window.storage.get(STORAGE_KEY+"-check");
-        if (checkStored && checkStored.value) setShopChecked(JSON.parse(checkStored.value));
-      } catch(err) {}
-      setIsReady(true);
-    }
-    loadData();
-  }, []);
-
-  async function saveRecipes(updated) {
+  function saveRecipes(updated) {
     setRecipes(updated);
-    try { await window.storage.set(STORAGE_KEY, JSON.stringify(updated)); } catch(err) {}
+    lsSet(STORAGE_KEY, updated);
   }
-  async function toggleDark() {
+  function toggleDark() {
     const next = !isDark;
     setIsDark(next);
-    try { await window.storage.set(STORAGE_KEY+"-theme", next ? "dark" : "light"); } catch(err) {}
+    lsSet(STORAGE_KEY+"-theme", next);
   }
-  async function saveShopItems(updated) {
+  function saveShopItems(updated) {
     setShopItems(updated);
-    try { await window.storage.set(STORAGE_KEY+"-shop", JSON.stringify(updated)); } catch(err) {}
+    lsSet(STORAGE_KEY+"-shop", updated);
   }
-  async function saveShopChecked(updated) {
+  function saveShopChecked(updated) {
     setShopChecked(updated);
-    try { await window.storage.set(STORAGE_KEY+"-check", JSON.stringify(updated)); } catch(err) {}
+    lsSet(STORAGE_KEY+"-check", updated);
   }
 
   function toggleShopItem(recipeId) {
@@ -313,10 +298,6 @@ export default function App() {
     return result;
   }
 
-  if (!isReady) {
-    return <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",background:LIGHT.bg,fontFamily:"Georgia,serif",color:LIGHT.txM,fontSize:"1.1rem",gap:"10px"}}><span style={{fontSize:"2rem"}}>📖</span>Laden...</div>;
-  }
-
   const groups = getGroups();
 
   const css = `
@@ -377,15 +358,15 @@ export default function App() {
     .cstack::before,.cstack::after{content:'';position:absolute;left:0;right:0;border-radius:10px;border:1.5px solid ${T.brd};background:${T.surf};}
     .cstack::before{top:8px;bottom:-8px;transform:rotate(2.5deg);opacity:.5;}
     .cstack::after{top:4px;bottom:-4px;transform:rotate(1.2deg);opacity:.68;}
-    .cfront{position:relative;z-index:1;background:${T.surf};border:1.5px solid ${T.brd};border-radius:10px;padding:14px 14px 12px;min-height:76px;display:flex;flex-direction:column;justify-content:flex-start;transition:all .18s;box-shadow:0 2px 8px rgba(44,32,18,.07);}
+    .cfront{position:relative;z-index:1;background:${T.surf};border:1.5px solid ${T.brd};border-radius:10px;padding:14px 14px 12px;height:80px;display:flex;flex-direction:column;justify-content:space-between;transition:all .18s;box-shadow:0 2px 8px rgba(44,32,18,.07);}
     .cstack:hover .cfront{transform:translateY(-4px) rotate(-.5deg);box-shadow:0 8px 20px rgba(44,32,18,.14);border-color:${T.acc}55;}
     .cbar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0;}
-    .ctit{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:${T.tx};line-height:1.35;word-break:break-word;overflow-wrap:break-word;padding-top:2px;}
+    .ctit{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:${T.tx};line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
     .cmeta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;}
     .cpip{font-size:.7rem;color:${T.txF};white-space:nowrap;}
 
     /* Overlay & Panel */
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,${isDark?.7:.4});z-index:100;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 12px;backdrop-filter:blur(6px);}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,${isDark?.7:.4});z-index:100;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 12px;backdrop-filter:blur(6px);}
     .panel{background:${T.surf};border-radius:14px;width:100%;max-width:740px;border:1.5px solid ${T.brd};position:relative;animation:su .22s ease;}
     @keyframes su{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
     .px{position:absolute;top:11px;right:11px;background:${T.surfAlt};border:1.5px solid ${T.brd};border-radius:7px;color:${T.txM};width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s;z-index:1;}
@@ -500,7 +481,7 @@ export default function App() {
       .shopftr{padding:10px 16px;}
       /* Mobile overlay: bottom sheet style */
       .overlay{align-items:flex-end;padding:0;}
-      .panel{border-radius:16px 16px 0 0;max-width:100%;}
+      .panel{border-radius:16px 16px 0 0;max-width:100%;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
       .shopanel{border-radius:16px 16px 0 0;max-width:100%;}
       /* Mobile section header */
       .shdr{font-size:.92rem;}
@@ -572,7 +553,7 @@ export default function App() {
                         <div key={rec.id} className="cstack" onClick={function(){ openDetail(rec); }}>
                           <div className="cfront">
                             <div className="cbar" style={{background:cc.border}} />
-                            <div className="ctit">{rec.title}</div>
+                            <div className="ctit" style={{fontSize: rec.title.length > 35 ? '.72rem' : rec.title.length > 22 ? '.82rem' : '.95rem'}}>{rec.title}</div>
                             <div className="cmeta">
                               {rec.prepTime && <span className="cpip">⏱ {rec.prepTime}</span>}
                               {rec.servings && <span className="cpip">👥 {rec.servings}</span>}
